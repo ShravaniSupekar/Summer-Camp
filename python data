@@ -1,0 +1,389 @@
+import pandas as pd
+import mysql.connector as sqltor
+from tkinter import *
+from tkinter import ttk
+import tkinter as tk
+from tkinter import messagebox
+import os
+
+myGui=Tk()
+
+a=StringVar()
+myGui.title("Little Campers Summer Camp 2023")
+myGui.geometry("1500x1000")
+myGui.configure(bg="oldlace")
+
+bg=PhotoImage(file="C:/Users/Dell/OneDrive/Desktop/Summer-
+Camp.png")
+
+myLabel12=Label(myGui,image=bg)
+myLabel12.place(x=0,y=0,relwidth=1,relheight=1)
+
+myLabel10= Label(text='Little Campers Summer Camp
+2023',font=("Georgia 55 bold"),bg='darkviolet',fg='seashell').pack()
+
+def registration():
+global screen2
+screen2 = Toplevel(myGui)
+screen2.title("Registeration Form")
+screen2.geometry("300x800")
+Label(screen2,text ="Registration Form",font="Cambria 10
+bold",bg='black',fg='white', width="40", height="3").pack()
+screen2.configure(bg="oldlace")
+global name
+global age
+global guardian
+
+global mobileno
+global name_entry
+global guardian_entry
+global mobileno_entry
+global state
+global gender
+
+name = StringVar()
+guardian = StringVar()
+age = int()
+mobileno = StringVar()
+
+con=sqltor.connect(host="localhost",user="root", passwd="tiger",
+database="project")
+c=con.cursor()
+
+Label(screen2, text="", bg="black").pack()
+
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="Name", bg="plum", font="Cambria 10 bold",
+width="40", height="2").pack()
+name_entry = Entry(screen2, textvariable=name, width="40")
+name_entry.place(x=240,y=242)
+name_entry.pack()
+
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="Guardian's Name", bg="plum",
+font="Cambria 10 bold", width="40", height="2").pack()
+guardian_entry = Entry(screen2, textvariable=guardian,
+width="40")
+guardian_entry.pack()
+
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="", bg="black").pack()
+
+Label(screen2, text="Age", bg="plum", font="Cambria 10 bold",
+width="40", height="2").pack()
+age = Entry(screen2, textvariable=age, width="40")
+age.pack()
+
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="Mobile no.", bg="plum", font="Cambria 10
+bold", width="40", height="2").pack()
+mobileno_entry = Entry(screen2, textvariable=mobileno,
+width="40")
+mobileno_entry.pack()
+
+state = StringVar()
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="State", bg="plum", font="Cambria 10 bold",
+width="40", height="2").pack()
+
+state.set("Select your State/UT")
+list1=['Andhra Pradesh','Arunachal
+Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Hima
+chal Pradesh','Jharkhand','Karnataka','Kerala','Madhya
+Pradesh','Maharashtra',
+
+'Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasth
+an','Sikkim','Tamil Nadu','Telangana','Tripura','Uttarakhand','Uttar
+Pradesh','West Bengal',
+'Andaman and Nicobar Islands','Chandigarh','Dadra and Nagar
+Haveli and Daman & Diu','Delhi','Jammu &
+Kashmir','Ladakh','Lakshadweep','Puducherry']
+droplist1=OptionMenu(screen2,state,*list1)
+droplist1.pack()
+
+gender=StringVar()
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="", bg="black").pack()
+
+Label(screen2, text="Gender", bg="plum", font="Cambria 10 bold",
+width="40", height="2").pack()
+gender.set("Select your Gender")
+list2=["Male","Female","Others"]
+droplist2=OptionMenu(screen2,gender,*list2)
+droplist2.pack()
+
+Button(screen2, text="Register", width="40", height="2",
+font="ariel 10 bold",fg="white",bg="black",
+command=register_username).pack(side=tk.RIGHT,padx=40)
+
+def sql():
+name= name_entry.get()
+gname= guardian_entry.get()
+age2= age.get()
+cont= mobileno_entry.get()
+
+qry="insert into admin(Name,Guardian_Name,Age,Mobile_No)
+values(%s,%s,%s,%s)"
+val=(name,gname,age2,cont)
+
+c.execute(qry,val)
+con.commit()
+
+btn2=Button(screen2,text="Verify",width="40",height="2",font=("ari
+el 10
+bold"),fg="white",bg="black",command=sql).pack(side=tk.LEFT,pad
+x=40)
+
+def after_regs():
+global screen3
+screen3=Toplevel(myGui)
+screen3.geometry("1000x1000")
+screen3.configure(bg="oldlace")
+
+screen3.title=("page")
+Label()
+Label(screen3, text="Your Schedule Is As Follows : ",
+fg="darkred",bg="oldlace", font=("Jokerman 20 bold")).pack()
+con=sqltor.connect(host="localhost", user="root", passwd="tiger",
+database="project")
+conn=con.cursor()
+conn.execute("select * from summer_camp order by Time desc;")
+tree=ttk.Treeview(screen3)
+tree["show"]="headings"
+
+tree["columns"]=["Time","16May","17May","18May","19May","20
+May"]
+tree.column("Time",width=100,
+minwidth=30,anchor=tk.CENTER)
+tree.column("16May",width=200,
+minwidth=60,anchor=tk.CENTER)
+
+tree.column("17May",width=200,
+minwidth=60,anchor=tk.CENTER)
+tree.column("18May",width=200,
+minwidth=60,anchor=tk.CENTER)
+tree.column("19May",width=200,
+minwidth=60,anchor=tk.CENTER)
+tree.column("20May",width=200,
+minwidth=60,anchor=tk.CENTER)
+
+tree.heading("Time",text="Time")
+tree.heading("16May",text="16 May")
+tree.heading("17May",text="17 May")
+tree.heading("18May",text="18 May")
+tree.heading("19May",text="19 May")
+tree.heading("20May",text="20 May")
+for ro in conn:
+
+i=0
+
+tree.insert("",i,text='',values=(ro[0],ro[1],ro[2],ro[3],ro[4],ro[5]))
+
+i=i+1
+
+tree.pack()
+
+Label(screen3, text="The children will perform a skit for all
+families on 21 May. The dispersal procedure shall follow.",
+fg="black",bg="oldlace", font=("Jokerman 10 bold")).pack()
+Label(screen3,text="",bg="oldlace").pack()
+Label(screen3,text="",bg="oldlace").pack()
+Label(screen3,text="",bg="oldlace").pack()
+Label(screen3,text="",bg="oldlace").pack()
+Label(screen3,text="",bg="oldlace").pack()
+
+Label(screen3, text="Please adhere to the following rules and
+regulations ", fg="darkred",bg="oldlace", font=("Jokerman 10
+bold")).pack()
+
+Label(screen3, text="1.Children should not carry any electronic
+gadgets or devices.", fg="black",bg="oldlace", font=("Jokerman 10
+bold")).pack()
+Label(screen3, text="2.Children should not be wearing any costly
+item or jewellery.", fg="black",bg="oldlace", font=("Jokerman 10
+bold")).pack()
+Label(screen3, text="3.Children should carry swimsuits",
+fg="black",bg="oldlace", font=("Jokerman 10 bold")).pack()
+Label(screen3, text="4.Parents should inform the organisers about
+any medical conditions of their ward prior to the summer camp for
+safety reasons.", fg="black",bg="oldlace", font=("Jokerman 10
+bold")).pack()
+Label(screen3,text="",bg="oldlace").pack()
+Label(screen3,text="",bg="oldlace").pack()
+Label(screen3,text="",bg="oldlace").pack()
+
+Label(screen3, text="For further details contact on :
++919436xxxxxx or email us on : summercamp2023@umail.com . ",
+fg="black",bg="oldlace", font=("Jokerman 10 bold")).pack()
+
+Label(screen3,text="",bg="oldlace").pack()
+Label(screen3,text="",bg="oldlace").pack()
+
+Button(screen3,text="Go Back",width="20", height="2",
+font="Courier 10
+bold",fg="white",bg="black",command=delete3).pack()
+
+def delete3():
+screen3.destroy()
+
+def register_username():
+
+name_info = name.get()
+guardian_info=guardian.get()
+mobileno_info = mobileno.get()
+age_info=age.get()
+
+file = open(name_info, "w")
+file.write(name_info + "\n")
+file.write(guardian_info + "\n")
+file.write(age_info + "\n")
+file.write(mobileno_info + "\n")
+file.close
+
+name_entry.delete(0, END)
+age.delete(0, END)
+mobileno_entry.delete(0, END)
+
+Label(screen2, text="", bg="black").pack()
+Label(screen2, text="", bg="black").pack()
+
+Label(screen2, text="SUCCESFULLY REGISTERED!!! TO
+VIEW YOUR SCHEDULE:", fg="darkred", bg="oldlace",
+font="Calibri 10 bold underline").pack()
+Button(screen2, text="Click Here", width="20", height="3",
+font="Calibri 10 bold underline",fg="white",bg="black",
+command=after_regs).pack()
+
+def login():
+global screen4
+screen4 = Toplevel(myGui)
+screen4.title("Login")
+screen4.configure(bg="oldlace")
+
+global name
+global mobileno
+global name_verify
+global mobileno_verify
+
+name = StringVar()
+mobileno = StringVar()
+
+Label(screen4,text ="Login",font="Cambria 10
+bold",bg='black',fg='white', width="40", height="3").pack()
+
+Label(screen4, text="", bg="black").pack()
+Label(screen4, text="", bg="black").pack()
+Label(screen4, text="", bg="black").pack()
+Label(screen4, text="Name", bg="plum", font="Cambria 10 bold",
+width="40", height="4").pack()
+name_verify = Entry(screen4, textvariable=name, width="40")
+name_verify.pack()
+
+Label(screen4, text="", bg="black").pack()
+Label(screen4, text="", bg="black").pack()
+Label(screen4, text="", bg="black").pack()
+
+Label(screen4, text="Mobile No.", bg="plum", font="Cambria 10
+bold", width="40", height="4").pack()
+mobileno_verify = Entry(screen4, textvariable=mobileno,
+width="40")
+mobileno_verify.pack()
+
+Label(screen4, text="", bg="black").pack()
+Label(screen4, text="", bg="black").pack()
+Label(screen4, text="", bg="black").pack()
+Button(screen4, text="Verify", width="20", height="3",
+font="Courier 10
+bold",bg="black",fg="white",command=login_verify).pack()
+
+Label(screen4, text="", bg="black").pack()
+Label(screen4, text="", bg="black").pack()
+Label(screen4, text="", bg="black").pack()
+
+Button(screen4, text="Go back", width="20", height="3",
+font="Courier 10 bold",bg="black",fg="white",
+command=delete4).pack()
+
+def delete4():
+screen4.destroy()
+
+def login_verify():
+name1 = name_verify.get()
+mobileno1 = mobileno_verify.get()
+name_verify.delete(0, END)
+mobileno_verify.delete(0, END)
+
+list_of_files = os.listdir()
+if name1 in list_of_files:
+file1 = open(name1, "r")
+verify = file1.read().splitlines()
+
+if mobileno1 in verify:
+login_sucess()
+else:
+
+mobileno_is_wrong()
+else:
+
+name_is_wrong()
+
+def name_is_wrong():
+global screen5
+screen5 = Toplevel(myGui)
+screen5.title("Name entered is Incorrect")
+Label(screen5, text="Name entered is Incorrect").pack()
+Button(screen5, text="OK", command=delete5).pack()
+
+def delete5():
+screen5.destroy()
+
+def mobileno_is_wrong():
+global screen6
+screen6 = Toplevel(myGui)
+screen6.title("Incorrect Mobile No. Entered")
+Label(screen6, text="Incorrect Mobile No. Entered").pack()
+Button(screen6, text="OK", command=delete6).pack()
+
+def delete6():
+screen6.destroy()
+
+def login_sucess():
+global screen7
+screen7 = Toplevel(myGui)
+screen7.title("")
+screen7.configure(bg="oldlace")
+Label(screen7, text="Welcome to Little Campers
+Camp",bg="oldlace",fg="darkred" ,font="Calibri 40 bold").pack()
+
+Label(screen7, text="", bg="black").pack()
+Label(screen7, text="", bg="black").pack()
+
+Button(screen7, text="View Your Schedule", width="20",
+height="4", font="Courier 10 bold",
+bg="plum",fg="black",command=after_regs).pack()
+Label(screen7, text="", bg="black").pack()
+Label(screen7, text="", bg="black").pack()
+
+Button(screen7, text="Go back", width="20", height="4",
+font="Courier 10 bold",
+bg="plum",fg="black",command=delete7).pack()
+
+def delete7():
+screen7.destroy()
+
+label = Label(myGui)
+
+label.pack(pady = 10)
+
+btn = Button(myGui,text ="Register Here",command =
+registration,font=("ariel 30 bold"),fg='white',bg='black')
+btn.pack(side=tk.RIGHT,padx=20,pady=10)
+
+btn1 = Button(myGui,text ="Login",command=login,font=("ariel 30
+bold"),fg='white',bg='black')
+btn1.pack(side=tk.LEFT, padx=40, pady=10)
+
+myGui.mainloop()
