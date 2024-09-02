@@ -1,0 +1,32 @@
+create database project;
+use project;
+#Creating scheduleTable
+Create table schedule (Time char(25) primary key, 16May char(40),
+17May char(40), 18May char(40), 19May char(40), 20May char(40));
+Insert into schedule values(“8:30-9:30”,”Breakfast”, ”Breakfast”,
+”Breakfast”, ”Breakfast”, ”Breakfast”);
+Insert into schedule values(“9:30-11:00”,”Holiday Homework”,
+”Creative Writing”, ” Holiday Homework”, ”Drama Practice”, ”
+Holiday Homework”);
+Insert into schedule values(“11:15-12:30”,”Drama Selections”
+,”Drawing” ,”Drama Practice” ,”Sports”, ”Dance/Music”);
+Insert into schedule values(“13:00-14:00”, ”Lunch”, ” Lunch”, ”
+Lunch”, ” Lunch”, ” Lunch”);
+Insert into schedule values(“15:30-16:00”, ”Milk N Snacks”, ”Milk
+N Snacks”, ”Milk N Snacks”, ”Milk N Snacks”, ”Milk N Snacks”);
+
+Insert into schedule values(“16:00-17:00”, “Indoor Sports”, ”Drama
+Practice”, “Public Speaking”, ”Arts N Crafts”, “Story Telling
+Competition”);
+Insert into schedule values(“17:30-18:30”, ”Swimming Classes”,
+“Trip to J.J. Aquarium”, “Swimming Classes”, ”Play Time”,
+“Sports”);
+Insert into schedule values(“19:45-20:30”, ”Dinner”, ” Dinner”, ”
+Dinner”, ” Dinner”, ” Dinner”); Insert into schedule values(“22:00-
+22:30”, ”Bedtime Story”, ”Bedtime Story”, ”Bedtime Story”,
+”Bedtime Story”, ”Bedtime Story”);
+Insert into schedule values(“22:30”, ”Lights Out”, ” Lights Out”, ”
+Lights Out”, ” Lights Out”, ” Lights Out”);
+# Creating Table admin
+Create table admin (Name char(20), Guardian_Name char(30), Age
+int(2), Mobile_No int(10));
